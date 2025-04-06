@@ -1,3 +1,4 @@
+import CredentialsSignInForm from "@/app/(auth)/sign-in/credentials-signin-form";
 import {
     Card,
     CardContent,
@@ -34,7 +35,7 @@ const SignInPage = () => {
                     </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                    {/* FORM HERE */}
+                    <CredentialsSignInForm />
                 </CardContent>
             </Card>
         </div>
