@@ -377,11 +377,11 @@ export async function deleteOrder(id: string) {
 }
 
 // Update COD order to paid
-export async function updateOrderToPaidCOD(orderdId: string) {
+export async function updateOrderToPaidCOD(orderId: string) {
   try {
     await updateOrderToPaid({ orderId });
 
-    revalidatePath(`/order/${orderdId}`);
+    revalidatePath(`/order/${orderId}`);
 
     return { success: true, message: "Order marked as paid" };
   } catch (error) {
