@@ -6,7 +6,7 @@ import { useTransition } from "react";
 import { paymentMethodSchema } from "@/lib/validators";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { DEFAULT_PAYMENT_METHODS, PAYMENT_METHODS } from "@/lib/constans";
+import { DEFAULT_PAYMENT_METHODS, PAYMENT_METHODS } from "@/lib/constants";
 import { useForm } from "react-hook-form";
 import {
   Form,

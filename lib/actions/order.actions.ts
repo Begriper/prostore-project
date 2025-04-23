@@ -10,7 +10,7 @@ import { CartItem, PaymentResult } from "@/types";
 import { isRedirectError } from "next/dist/client/components/redirect-error";
 import { paypal } from "@/lib/paypal";
 import { revalidatePath } from "next/cache";
-import { PAGE_SIZE } from "@/lib/constans";
+import { PAGE_SIZE } from "@/lib/constants";
 import { Prisma } from "@prisma/client";
 
 // Create order and create order items

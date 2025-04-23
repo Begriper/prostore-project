@@ -1,7 +1,7 @@
 "use server";
 
 import { prisma } from "@/db/prisma";
-import { LATEST_PRODUCTS_LIMIT, PAGE_SIZE } from "@/lib/constans";
+import { LATEST_PRODUCTS_LIMIT, PAGE_SIZE } from "@/lib/constants";
 import { convertToPlainObject, formatError } from "@/lib/utils";
 import { insertProductSchema, updateProductSchema } from "@/lib/validators";
 import { revalidatePath } from "next/cache";
@@ -39,6 +39,7 @@ export async function getAllProducts({
   category?: string;
 }) {
   const data = await prisma.product.findMany({
+    orderBy: { createdAt: "desc" },
     skip: (page - 1) * limit,
     take: limit,
   });
