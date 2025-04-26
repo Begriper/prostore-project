@@ -2,6 +2,7 @@
 
 import { auth, signIn, signOut } from "@/auth";
 import { prisma } from "@/db/prisma";
+import { PAGE_SIZE } from "@/lib/constants";
 import { formatError } from "@/lib/utils";
 import {
   paymentMethodSchema,
@@ -170,4 +171,26 @@ export async function updateProfile(user: { name: string; email: string }) {
   } catch (error) {
     return { success: false, message: formatError(error) };
   }
+}
+
+// Get all the users
+export async function getAllUsers({
+  limit = PAGE_SIZE,
+  page,
+}: {
+  limit?: number;
+  page: number;
+}) {
+  const data = await prisma.user.findMany({
+    orderBy: { createdAt: "desc" },
+    take: limit,
+    skip: (page - 1) * limit,
+  });
+
+  const dataCount = await prisma.user.count();
+
+  return {
+    data,
+    totalPages: Math.ceil(dataCount / limit),
+  };
 }

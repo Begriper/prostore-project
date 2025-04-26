@@ -11,11 +11,9 @@ export const ourFileRouter = {
       if (!session) throw new UploadThingError("Unauthorized");
       return { userId: session.user.id };
     })
-    .onUploadComplete(
-      async ({ metadata }: { metadata: { userId: string } }) => {
-        return { uploadedBy: metadata.userId };
-      }
-    ),
+    .onUploadComplete(async ({ metadata }) => {
+      return { uploadedBy: metadata.userId };
+    }),
 } satisfies FileRouter;
 
 export type OurFileRouter = typeof ourFileRouter;
