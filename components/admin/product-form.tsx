@@ -75,8 +75,8 @@ const ProductForm = ({
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        {/* --- Name & Slug --- */}
         <div className="flex flex-col md:flex-row gap-5">
+          {/* Name */}
           <FormField
             control={form.control}
             name="name"
@@ -91,6 +91,7 @@ const ProductForm = ({
             )}
           />
 
+          {/* Slug */}
           <FormField
             control={form.control}
             name="slug"
