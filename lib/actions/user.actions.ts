@@ -12,6 +12,7 @@ import {
 } from "@/lib/validators";
 import { ShippingAddress } from "@/types";
 import { hashSync } from "bcrypt-ts-edge";
+import { revalidatePath } from "next/cache";
 import { isRedirectError } from "next/dist/client/components/redirect-error";
 import { z } from "zod";
 
@@ -193,4 +194,23 @@ export async function getAllUsers({
     data,
     totalPages: Math.ceil(dataCount / limit),
   };
+}
+
+// Delete a user
+export async function deleteUser(id: string) {
+  try {
+    await prisma.user.delete({ where: { id } });
+
+    revalidatePath("/admin/users");
+
+    return {
+      success: true,
+      message: "User deleted successfully",
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: formatError(error),
+    };
+  }
 }
