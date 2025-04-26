@@ -11,6 +11,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { deleteUser, getAllUsers } from "@/lib/actions/user.actions";
+import { requireAdmin } from "@/lib/auth-guard";
 import { formatId } from "@/lib/utils";
 
 import { Metadata } from "next";
@@ -23,15 +24,30 @@ export const metadata: Metadata = {
 const AdminUserPage = async (props: {
   searchParams: Promise<{
     page: string;
+    query: string;
   }>;
 }) => {
-  const { page = "1" } = await props.searchParams;
+  await requireAdmin();
 
-  const users = await getAllUsers({ page: Number(page) });
-  console.log(users);
+  const { page = "1", query: searchText } = await props.searchParams;
+
+  const users = await getAllUsers({ page: Number(page), query: searchText });
+
   return (
     <div className="space-y-2">
-      <h2 className="h2-bold">Users</h2>
+      <div className="flex items-center gap-3">
+        <h1 className="h2-bold">Users</h1>
+        {searchText && (
+          <div>
+            Filtered by <i>&quot;{searchText}&quot;</i>{" "}
+            <Link href="/admin/users">
+              <Button variant="outline" size="sm">
+                Remove Filter
+              </Button>
+            </Link>
+          </div>
+        )}
+      </div>
       <div className="overflow-x-auto">
         <Table>
           <TableHeader>

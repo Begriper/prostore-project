@@ -1,5 +1,6 @@
 import UpdateUserForm from "@/app/admin/users/[id]/update-user-form";
 import { getUserById } from "@/lib/actions/user.actions";
+import { requireAdmin } from "@/lib/auth-guard";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 
@@ -12,6 +13,8 @@ const AdminUserUpdatePage = async (props: {
     id: string;
   }>;
 }) => {
+  await requireAdmin();
+
   const { id } = await props.params;
 
   const user = await getUserById(id);
