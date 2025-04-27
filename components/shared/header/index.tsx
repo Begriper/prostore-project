@@ -1,5 +1,6 @@
 import CategoryDrawer from "@/components/shared/header/category-drawer";
 import Menu from "@/components/shared/header/menu";
+import Search from "@/components/shared/header/search";
 import { APP_NAME } from "@/lib/constants";
 import Image from "next/image";
 import Link from "next/link";
@@ -22,6 +23,9 @@ const Header = () => {
               {APP_NAME}
             </span>
           </Link>
+        </div>
+        <div className="hidden md:block">
+          <Search />
         </div>
         <Menu />
       </div>
