@@ -23,7 +23,7 @@ import { USER_ROLES } from "@/lib/constants";
 import { updateUserSchema } from "@/lib/validators";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
+import { ControllerRenderProps, useForm } from "react-hook-form";
 import { z } from "zod";
 
 const UpdateUserForm = ({
@@ -31,9 +31,7 @@ const UpdateUserForm = ({
 }: {
   user: z.infer<typeof updateUserSchema>;
 }) => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const router = useRouter();
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { toast } = useToast();
 
   const form = useForm<z.infer<typeof updateUserSchema>>({
@@ -54,7 +52,10 @@ const UpdateUserForm = ({
           description: res.message,
         });
       }
-      toast({ description: res.message });
+
+      toast({
+        description: res.message,
+      });
       form.reset();
       router.push("/admin/users");
     } catch (error) {
@@ -63,7 +64,6 @@ const UpdateUserForm = ({
         description: (error as Error).message,
       });
     }
-    return;
   };
 
   return (
@@ -74,7 +74,14 @@ const UpdateUserForm = ({
           <FormField
             control={form.control}
             name="email"
-            render={({ field }) => (
+            render={({
+              field,
+            }: {
+              field: ControllerRenderProps<
+                z.infer<typeof updateUserSchema>,
+                "email"
+              >;
+            }) => (
               <FormItem className="w-full">
                 <FormLabel>Email</FormLabel>
                 <FormControl>
@@ -94,7 +101,14 @@ const UpdateUserForm = ({
           <FormField
             control={form.control}
             name="name"
-            render={({ field }) => (
+            render={({
+              field,
+            }: {
+              field: ControllerRenderProps<
+                z.infer<typeof updateUserSchema>,
+                "name"
+              >;
+            }) => (
               <FormItem className="w-full">
                 <FormLabel>Name</FormLabel>
                 <FormControl>
@@ -105,15 +119,21 @@ const UpdateUserForm = ({
             )}
           />
         </div>
-
         {/* Role */}
         <div>
           <FormField
             control={form.control}
             name="role"
-            render={({ field }) => (
+            render={({
+              field,
+            }: {
+              field: ControllerRenderProps<
+                z.infer<typeof updateUserSchema>,
+                "role"
+              >;
+            }) => (
               <FormItem className="w-full">
-                <FormLabel>Roll</FormLabel>
+                <FormLabel>Role</FormLabel>
                 <Select
                   onValueChange={field.onChange}
                   value={field.value.toString()}
@@ -136,7 +156,7 @@ const UpdateUserForm = ({
             )}
           />
         </div>
-        <div className="flex-between mt-4">
+        <div className="flex-between mt-6">
           <Button
             type="submit"
             className="w-full"
