@@ -1,5 +1,6 @@
 "use client";
 
+import ReviewForm from "@/app/(root)/product/[slug]/review-form";
 import { Review } from "@/types";
 import Link from "next/link";
 import { useState } from "react";
@@ -31,7 +32,9 @@ const ReviewList = ({
           to write a review
         </div>
       )}
-      <div className="flex flex-col gap-3">{/* REVIEWS HERE */}</div>
+      <div className="flex flex-col gap-3">
+        <ReviewForm userId={userId} productId={productId} />
+      </div>
     </div>
   );
 };
