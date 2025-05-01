@@ -6,12 +6,13 @@ import { getMyCart } from "@/lib/actions/cart.actions";
 import { getUserById } from "@/lib/actions/user.actions";
 import { convertToPlainObject, formatError } from "@/lib/utils";
 import { insertOrderSchema } from "@/lib/validators";
-import { CartItem, PaymentResult } from "@/types";
+import { CartItem, PaymentResult, ShippingAddress } from "@/types";
 import { isRedirectError } from "next/dist/client/components/redirect-error";
 import { paypal } from "@/lib/paypal";
 import { revalidatePath } from "next/cache";
 import { PAGE_SIZE } from "@/lib/constants";
 import { Prisma } from "@prisma/client";
+import { sendPurchaseReceipt } from "@/email";
 
 // Create order and create order items
 export async function createOrder() {
@@ -256,6 +257,14 @@ export async function updateOrderToPaid({
   });
 
   if (!updateOrder) throw new Error("Order not found");
+
+  sendPurchaseReceipt({
+    order: {
+      ...updateOrder,
+      shippingAddress: updateOrder.shippingAddress as ShippingAddress,
+      paymentResult: updateOrder.paymentResult as PaymentResult,
+    },
+  });
 }
 
 // Get user's orders
