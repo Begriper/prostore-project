@@ -2,6 +2,7 @@
 
 import { auth, signIn, signOut } from "@/auth";
 import { prisma } from "@/db/prisma";
+import { getMyCart } from "./cart.actions";
 import { PAGE_SIZE } from "@/lib/constants";
 import { formatError } from "@/lib/utils";
 import {
@@ -43,6 +44,9 @@ export async function signInWithCredentials(
 
 // Sign user out
 export async function signOutUser() {
+  // get current users cart and delete it so it does not persist to next user
+  const currentCart = await getMyCart();
+  await prisma.cart.delete({ where: { id: currentCart?.id } });
   await signOut();
 }
 
@@ -147,7 +151,6 @@ export async function updateUserPaymentMethod(
 }
 
 // Update the user profile
-
 export async function updateProfile(user: { name: string; email: string }) {
   try {
     const session = await auth();

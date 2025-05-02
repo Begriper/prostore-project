@@ -103,17 +103,34 @@ export async function createOrder() {
 
 // Get order by id
 export async function getOrderById(orderId: string) {
-  const data = await prisma.order.findFirst({
-    where: {
-      id: orderId,
-    },
+  // Read order + relations from DB
+  const order = await prisma.order.findFirst({
+    where: { id: orderId },
     include: {
       orderitems: true,
       user: { select: { name: true, email: true } },
     },
   });
 
-  return convertToPlainObject(data);
+  // If not found → return null
+  if (!order) return null;
+
+  // 1) Convert Prisma Json to strongly-typed PaymentResult
+  const paymentResult: PaymentResult = order.paymentResult
+    ? (order.paymentResult as unknown as PaymentResult)
+    : {
+        id: "",
+        status: "",
+        email_address: "",
+        pricePaid: "",
+      };
+
+  // 2) Return plain object with correct TS types
+  return {
+    ...convertToPlainObject(order),
+    shippingAddress: order.shippingAddress as ShippingAddress,
+    paymentResult,
+  };
 }
 
 // Create new paypal order
