@@ -71,7 +71,7 @@ const OrderDetailsTable = ({
     return status;
   };
 
-  const handleCreatePayPalOrder = async () => {
+  const handleCreatePayPalOrder = async (): Promise<string> => {
     const res = await createPayPalOrder(order.id);
 
     if (!res.success) {
@@ -79,9 +79,11 @@ const OrderDetailsTable = ({
         variant: "destructive",
         description: res.message,
       });
+
+      return "";
     }
 
-    return res.data;
+    return res.data as string;
   };
 
   const handleApprovePayPalOrder = async (data: { orderID: string }) => {
@@ -164,9 +166,9 @@ const OrderDetailsTable = ({
               <h2 className="text-xl pb-4">Shipping Address</h2>
               <p>{shippingAddress.fullName}</p>
               <p className="mb-2">
-                {shippingAddress.streetAddress}, {shippingAddress.city}
-                {shippingAddress.postalCode}, {shippingAddress.country}
+                {`${shippingAddress.streetAddress}, ${shippingAddress.city} ${shippingAddress.postalCode}, ${shippingAddress.country}`}
               </p>
+
               {isDelivered ? (
                 <Badge variant="secondary">
                   Delivered at {formatDateTime(deliveredAt!).dateTime}

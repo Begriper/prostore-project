@@ -1,41 +1,29 @@
 import { generateAccessToken, paypal } from "../lib/paypal";
 
-// Test to generate access token from paypal
-test("generates token from paypal", async () => {
-  const tokenResponse = await generateAccessToken();
-  console.log(tokenResponse);
-  expect(typeof tokenResponse).toBe("string");
-  expect(tokenResponse.length).toBeGreaterThan(0);
-});
+jest.setTimeout(20_000);
 
-// Test to create a paypal order
-test("creates a paypal order", async () => {
+// 1) token
+test("generates token from PayPal", async () => {
   const token = await generateAccessToken();
   expect(typeof token).toBe("string");
   expect(token.length).toBeGreaterThan(0);
-
-  const price = 10.0;
-
-  const orderResponse = await paypal.createOrder(price);
-  console.log(orderResponse);
-
-  expect(orderResponse).toHaveProperty("id");
-  expect(orderResponse).toHaveProperty("status");
-  expect(orderResponse.status).toBe("CREATED");
 });
 
-// Test to capture payment with mock order
-test("simulate capturing a payment from an order", async () => {
-  const orderId = "100";
+// 2) order
+test("creates a PayPal order", async () => {
+  const order = await paypal.createOrder(10);
+  expect(order).toHaveProperty("id");
+  expect(order.status).toBe("CREATED");
+});
 
-  const mockCapturePayment = jest
+// 3) capture (mock)
+test("captures payment (mocked)", async () => {
+  const spy = jest
     .spyOn(paypal, "capturePayment")
-    .mockResolvedValue({
-      status: "COMPLETED",
-    });
+    .mockResolvedValue({ status: "COMPLETED" });
 
-  const captureResponse = await paypal.capturePayment(orderId);
-  expect(captureResponse).toHaveProperty("status", "COMPLETED");
+  const res = await paypal.capturePayment("DUMMY");
+  expect(res).toHaveProperty("status", "COMPLETED");
 
-  mockCapturePayment.mockRestore();
+  spy.mockRestore();
 });

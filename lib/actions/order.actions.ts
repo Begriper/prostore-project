@@ -155,7 +155,7 @@ export async function createPayPalOrder(orderId: string) {
             id: paypalOrder.id,
             email_address: "",
             status: "",
-            pricePaid: 0,
+            pricePaid: "0.00",
           },
         },
       });
@@ -204,9 +204,10 @@ export async function approvePayPalOrder(
       paymentResult: {
         id: captureData.id,
         status: captureData.status,
-        email_address: captureData.payer.email_address,
+        email_address: captureData.payer?.email_address ?? "",
         pricePaid:
-          captureData.purchase_units[0]?.payments?.captures[0]?.amount?.value,
+          captureData.purchase_units?.[0]?.payments?.captures?.[0]?.amount
+            ?.value ?? "0.00",
       },
     });
 
@@ -221,7 +222,7 @@ export async function approvePayPalOrder(
   }
 }
 
-// Udpate order to paid
+// Update order to paid
 export async function updateOrderToPaid({
   orderId,
   paymentResult,
@@ -265,7 +266,7 @@ export async function updateOrderToPaid({
   });
 
   // Get updated order after transaction
-  const updateOrder = await prisma.order.findFirst({
+  const updatedOrder = await prisma.order.findFirst({
     where: { id: orderId },
     include: {
       orderitems: true,
@@ -273,13 +274,13 @@ export async function updateOrderToPaid({
     },
   });
 
-  if (!updateOrder) throw new Error("Order not found");
+  if (!updatedOrder) throw new Error("Order not found");
 
   sendPurchaseReceipt({
     order: {
-      ...updateOrder,
-      shippingAddress: updateOrder.shippingAddress as ShippingAddress,
-      paymentResult: updateOrder.paymentResult as PaymentResult,
+      ...updatedOrder,
+      shippingAddress: updatedOrder.shippingAddress as ShippingAddress,
+      paymentResult: updatedOrder.paymentResult as PaymentResult,
     },
   });
 }
