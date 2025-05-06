@@ -1,36 +1,99 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🛒 ProStore – Full-Stack E-Commerce Application
 
-## Getting Started
+**Live Preview:** [prostore-project-lilac.vercel.app](https://prostore-project-lilac.vercel.app)
 
-First, run the development server:
+ProStore is a modern full-stack e-commerce platform built with Next.js 15, React 19, TypeScript, Prisma, PostgreSQL, and shadcn/ui. Developed as part of Brad Traversy's advanced Next.js course, this project showcases a comprehensive shopping experience with robust features and a clean, responsive design.
+
+---
+
+## ✨ Features
+
+- **Authentication**: Secure user authentication using NextAuth.js.
+- **Admin Dashboard**: Manage products, orders, and users with insightful statistics and charts powered by Recharts.
+- **Product Management**: Create, edit, and delete products with support for multiple images and featured banners.
+- **Shopping Cart**: Add, remove, and adjust product quantities with real-time updates.
+- **Checkout Process**: Streamlined checkout with shipping address, payment method selection (Stripe, PayPal, or Cash on Delivery), and order summary.
+- **User Profile**: View and manage personal information and order history.
+- **Search and Filtering**: Advanced search functionality with category filtering, price range, and rating filters.
+- **Reviews and Ratings**: Users can leave reviews and rate products.
+- **Responsive Design**: Fully responsive layout with light and dark mode support.
+
+---
+
+## 🧰 Technologies Used
+
+- **Frontend**: Next.js 15, React 19, TypeScript, Tailwind CSS, shadcn/ui
+- **Backend**: Prisma ORM, PostgreSQL
+- **Authentication**: NextAuth.js
+- **Payments**: Stripe, PayPal
+- **File Uploads**: Uploadthing
+- **Email Notifications**: Resend
+- **Testing**: Jest
+- **Deployment**: Vercel
+
+---
+
+## 🚀 Getting Started
+
+1. **Clone the repository:**
+
+   ```bash
+   git clone https://github.com/your-username/prostore.git
+   cd prostore
+   ```
+
+2. **Install dependencies:**
+
+   ```bash
+   npm install
+   ```
+
+3. **Set up environment variables:**
+
+   Rename `.env.example` to `.env` and fill in the required values:
+
+   ```env
+   DATABASE_URL=your_postgres_database_url
+   NEXTAUTH_SECRET=your_nextauth_secret
+   STRIPE_SECRET_KEY=your_stripe_secret_key
+   NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=your_stripe_publishable_key
+   PAYPAL_CLIENT_ID=your_paypal_client_id
+   PAYPAL_APP_SECRET=your_paypal_app_secret
+   UPLOADTHING_TOKEN=your_uploadthing_token
+   UPLOADTHING_SECRET=your_uploadthing_secret
+   UPLOADTHING_APPID=your_uploadthing_appid
+   RESEND_API_KEY=your_resend_api_key
+   ```
+
+4. **Run the development server:**
+
+   ```bash
+   npm run dev
+   ```
+
+   Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+---
+
+## 🌱 Seeding the Database
+
+To populate the database with initial data:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npx prisma db seed
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 📚 Learn More
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+This project is part of the [Next.js Ecommerce course by Brad Traversy](https://www.udemy.com/course/nextjs-ecommerce-course/), which covers building a full-featured shopping platform from scratch using modern technologies.
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## 👨‍💻 Author
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+**František Stolar**
+Frontend Developer passionate about building modern web applications.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
